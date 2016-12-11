@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+//Turkce karakter kullanimi kodun anlasilmasini guclestiriyor!! @erdiata
+/* ilk fonksiyon delta fonksiyonu. Diskriminant degeri icin olusturuldu.delta degeri ondalik sayilardan olustugu icin double tanimlandi.a, b ve c degerleri denklemimizdeki katsayilar bu katsayilar kullanilarak diskriminant degerleri hesaplaniyor ve koku bulmak icin ikinci fonksiyonda kullanilacak. */
+double delta( double a, double b, double c ){ //diskriminant degeri icin olusturulan fonksiyon.
+    double d = (b * b) - 4 * (a * c);//denklemin diskriminant degeri
+    return d;
+}
+/* ikinci fonksiyon if dongusu iceriyor. burada degiskenler; real,imaginary(delta sifirdan kucuk oldugunda gelecek kompleks kokler icin), kok1,kok2(delta sıfırdan buyuk oldugunda gelecek 2 ayri kok),kok_1,kok_2(delta sifira esit oldugunda gelecek kok. iki kok de ayni degeri alir.) bu fonksiyonda diskriminant degerinin sifirdan kucuk olup olmamasi veya esit olmasi durumu degerlendirilir. Burada asil kodumuzda sadece a b ve c degerleri girilyor(bu degerler iki fonksiyonda da kullaniliyor) ve delta fonksiyonunda olusturulan diskriminant degeri kuadratik_kok fonksiyonunda dongulerde kullaniliyor.surekli delta fonksiyonunu yazmamak icin kodu kisaltmak adina bu fonksiyon olusturuldu.  */
+void kuadratik_kok(double a,double b,double c){     /* diskriminantın 3 farkli durumu icin kuadratik_kok fonk. olusturuldu. burada amac denklemin daha derli toplu, anlasilir olmasini saglamak.*/
+    
+    double  real, imaginary, kok1, kok2, kok_1, kok_2;
+    if (delta(a, b, c) > 0){      //denklemin iki farklı koku vardir!
+        kok1 = (-b / ( 2 * a ))  + (sqrt(delta(a ,b, c))) / ( 2 * a);//denklemin 1.koku
+        kok2 = (-b / ( 2 * a ))  - (sqrt(delta(a, b, c))) / ( 2 * a );// denklemin 2.koku
+        printf("denklemin 1. koku %.2lf\n, 2.koku %.2lf\n", kok1, kok2); /* ekrana "denklemin 1.koku .. , 2.koku..." basacak.(kok1 ve kok2 degerlerini)*/
+        
+    }
+    else if (delta(a, b, c) == 0) {    //denklemin kokleri cakisik!
+        kok_1 = kok_2 = -b / ( 2 * a ); //denklemin koku
+        printf("denklemin koku %.2lf'dir\n", kok_1); //ekrana bir kok basacak. "denklemin koku ...'dir "
+    }
+    else // delta sifirdan kucuk oldugu durum. kokler complex!
+    {
+        real      = -b / ( 2 * a );// kokun complex kismi
+        imaginary = sqrt(  -delta(a, b, c)) / ( 2 * a );//kokun imajener kismi
+        printf("denklemin 1.koku = %.2lf + %.2lfi\n, denklemin 2.koku = %.2lf - %.2lfi\n ", real, imaginary, real, imaginary);/* denklemin reel ve imajener kisimlari printf icerisinde toplanip iki kok olarak ekrana basiliyor "denklemin 1.koku (real +imajener), denklemin 2.koku (real - imajener)" */
+    }
+}
+int main() {
+    double a, b, c;
+    a = 3.2;
+    b = 2.5;
+    c = 2.0;
+    printf("diskriminant degeri %lf\n", delta(a, b, c));   /* programcinin girdigi a,b ve c degerleri kullanilarak yukaridaki delta fonksiyonunda delta degeri cekiliyor*/
+    kuadratik_kok(a, b, c);             /*delta fonksiyonu kullanilarak elde edilen kökler icin kuadratik_kok fonksiyonuna gidiyor.   */
+    return 0;
+    return EXIT_SUCCESS;
+    
+}
